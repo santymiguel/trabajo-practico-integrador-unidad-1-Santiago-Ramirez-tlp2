@@ -49,40 +49,49 @@ export const postArticleTag = async (req, res) => {
 };
 
 export async function deleteArticleTag(req, res) {
-  const articleTagId = req.params.articleTagId;
-  const articleTag = await ArticleTag.findByPk(articleTagId);
+  try {
+    const articleTagId = req.params.articleTagId;
+    const articleTag = await ArticleTag.findByPk(articleTagId);
 
-  if (!articleTag) {
-    return res.status(404).json({
+    if (!articleTag) {
+      return res.status(404).json({
+        ok: false,
+        status: 404,
+        message: "Relación artículo-etiqueta no encontrada",
+      });
+    }
+    const article = await Article.findByPk(articleTag.article_id);
+    if (!article) {
+      return res.status(404).json({
+        ok: false,
+        status: 404,
+        message: "Artículo no encontrado",
+      });
+    }
+
+    if (req.user.id !== article.user_id) {
+      return res.status(403).json({
+        ok: false,
+        status: 403,
+        message: "No cuenta con permisos para remover esta etiqueta",
+      });
+    }
+
+    await ArticleTag.destroy({
+      where: { id: articleTagId },
+    });
+
+    return res.status(200).json({
+      ok: true,
+      status: 200,
+      message: "Etiqueta removida correctamente",
+    });
+  } catch (err) {
+    return res.status(500).json({
       ok: false,
-      status: 404,
-      message: "Relación artículo-etiqueta no encontrada",
+      status: 500,
+      message: "Error al querer eliminar el artículo",
+      error: err.message,
     });
   }
-  const article = await Article.findByPk(articleTag.article_id);
-  if (!article) {
-    return res.status(404).json({
-      ok: false,
-      status: 404,
-      message: "Artículo no encontrado",
-    });
-  }
-
-  if (req.user.id !== article.user_id) {
-    return res.status(403).json({
-      ok: false,
-      status: 403,
-      message: "No cuenta con permisos para remover esta etiqueta",
-    });
-  }
-
-  await ArticleTag.destroy({
-    where: { id: articleTagId },
-  });
-
-  return res.status(200).json({
-    ok: true,
-    status: 200,
-    message: "Etiqueta removida correctamente",
-  });
 }

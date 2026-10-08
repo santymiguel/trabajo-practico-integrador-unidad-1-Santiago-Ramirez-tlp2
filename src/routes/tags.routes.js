@@ -1,4 +1,11 @@
 import express from "express";
+import {
+  deleteTag,
+  getTag,
+  getTags,
+  postTag,
+  putTag,
+} from "../controllers/tags.controller";
 // se importan los controladores
 
 export const tagsRouter = express.Router();

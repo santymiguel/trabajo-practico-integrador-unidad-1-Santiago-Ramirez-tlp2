@@ -1,4 +1,13 @@
 import express from "express";
+import {
+  deleteArticle,
+  getArticle,
+  getArticleByUser,
+  getArticles,
+  getArticlesByUser,
+  postArticle,
+  putArticle,
+} from "../controllers/articles.controller";
 // se importan los controladores
 
 export const articlesRouter = express.Router();
