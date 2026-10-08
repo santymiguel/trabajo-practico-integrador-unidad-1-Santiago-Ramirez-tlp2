@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/database.js";
+import Article from "./Article.js";
 
 const ArticleTag = sequelize.define(
   "ArticleTag",
@@ -7,6 +8,11 @@ const ArticleTag = sequelize.define(
     article_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "articles",
+        key: "id",
+      },
+      onDelete: "CASCADE",
     },
 
     tag_id: {
@@ -16,7 +22,7 @@ const ArticleTag = sequelize.define(
   },
   {
     tableName: "article_tags",
-    timestamps: false,
+    timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
   },

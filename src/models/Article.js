@@ -41,6 +41,8 @@ const Article = sequelize.define(
 
     timestamps: true,
 
+    paranoid: true,
+    deletedAt: "deleted_at",
     createdAt: "created_at",
     updatedAt: "updated_at",
   },
