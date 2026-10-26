@@ -1,6 +1,6 @@
 import { body, param } from "express-validator";
 import { Op } from "sequelize";
-import User from "../models/User";
+import User from "../models/User.js";
 
 /* ^[a-zA-Z0-9]+$
 
@@ -89,6 +89,17 @@ export const validationPostUser = [
     .optional()
     .isURL()
     .withMessage("El avatar debe ser una URL válida"),
+
+  body("birth_date")
+    .optional()
+    .isDate({ format: "YYYY-MM-DD", strictMode: true })
+    .withMessage("Debe ser una fecha válida en formato YYYY-MM-DD")
+    .custom((value) => {
+      if (new Date(value) > new Date()) {
+        throw new Error("La fecha de nacimiento no puede ser futura");
+      }
+      return true;
+    }),
 ];
 
 export const validationPutUser = [

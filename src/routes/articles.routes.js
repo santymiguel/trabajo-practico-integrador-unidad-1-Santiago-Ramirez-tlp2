@@ -7,7 +7,7 @@ import {
   getArticlesByUser,
   postArticle,
   putArticle,
-} from "../controllers/articles.controller";
+} from "../controllers/articles.controller.js";
 // se importan los controladores
 
 export const articlesRouter = express.Router();

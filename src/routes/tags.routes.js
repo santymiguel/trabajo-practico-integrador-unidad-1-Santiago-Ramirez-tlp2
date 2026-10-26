@@ -5,7 +5,7 @@ import {
   getTags,
   postTag,
   putTag,
-} from "../controllers/tags.controller";
+} from "../controllers/tags.controller.js";
 // se importan los controladores
 
 export const tagsRouter = express.Router();

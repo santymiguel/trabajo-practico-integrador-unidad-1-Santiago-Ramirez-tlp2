@@ -1,4 +1,4 @@
-import Article from "../models/Article";
+import Article from "../models/Article.js";
 
 export async function postArticle(req, res) {
   try {

@@ -5,12 +5,12 @@ import {
   getUsers,
   postUser,
   putUser,
-} from "../controllers/users.controller";
+} from "../controllers/users.controller.js";
 import {
   validationGetUser,
   validationPostUser,
-} from "../middleware/validation.User";
-import { validate } from "../middleware/validate";
+} from "../middleware/validation.User.js";
+import { validate } from "../middleware/validate.js";
 // se importan los controladores
 
 export const usersRouter = express.Router();

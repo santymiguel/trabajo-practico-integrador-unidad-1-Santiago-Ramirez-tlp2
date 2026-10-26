@@ -1,7 +1,7 @@
-import { comparePassword } from "../../helpers/bycript.helper";
-import { generateToken } from "../../helpers/jwt.helper";
-import Profile from "../../models/Profile";
-import User from "../../models/User";
+import { comparePassword } from "../../helpers/bycript.helper.js";
+import { generateToken } from "../../helpers/jwt.helper.js";
+import Profile from "../../models/Profile.js";
+import User from "../../models/User.js ";
 
 export const login = async (req, res) => {
   const { username, password } = req.body;

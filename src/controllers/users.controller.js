@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import Profile from "../models/Profile.js";
 import Article from "../models/Article.js";
 import { matchedData } from "express-validator";
+import { hashPassword } from "../helpers/bycript.helper.js";
 
 export async function getUsers(req, res) {
   try {
@@ -48,39 +49,16 @@ export const getUser = async (req, res) => {
 
 export async function postUser(req, res) {
   try {
-    const {
-      username,
-      email,
-      password,
-      role,
-      first_name,
-      last_name,
-      biography,
-      avatar_url,
-      birth_date,
-    } = req.body;
+    const { password } = req.body;
+    const hashedPassword = await hashPassword(password);
+    const data = matchedData(req);
 
-    const user = await UsersModel.create({
-      username,
-      email,
-      password,
-      role,
-    });
-    const perfilNuevo = await Profile.create({
-      user_id: user.id,
-      first_name,
-      last_name,
-      biography,
-      avatar_url,
-      birth_date,
-    });
+    const user = await UsersModel.create({ ...data, password: hashedPassword });
+    const perfilNuevo = await Profile.create({ ...data, user_id: user.id });
     return res.status(201).json({
       ok: true,
       status: 201,
-      body: {
-        user,
-        profile: perfilNuevo,
-      },
+      message: "usuario creado exitosamente",
     });
   } catch (err) {
     return res.status(500).json({

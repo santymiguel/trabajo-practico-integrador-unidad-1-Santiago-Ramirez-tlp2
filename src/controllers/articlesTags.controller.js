@@ -1,7 +1,7 @@
 import { matchedData } from "express-validator";
-import Article from "../models/Article";
-import ArticleTag from "../models/ArticleTag";
-import Tag from "../models/Tag";
+import Article from "../models/Article.js";
+import ArticleTag from "../models/ArticleTag.js";
+import Tag from "../models/Tag.js";
 
 export const postArticleTag = async (req, res) => {
   try {

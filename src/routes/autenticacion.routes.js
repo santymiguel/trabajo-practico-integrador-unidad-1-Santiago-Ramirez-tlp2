@@ -1,6 +1,6 @@
 import express from "express";
-import { authMiddleware } from "../middleware/validation/authMiddleware";
-import { register } from "../controllers/autenticacion/register.controller";
+import { authMiddleware } from "../middleware/validation/authMiddleware.js";
+import { register } from "../controllers/autenticacion/register.controller.js";
 
 export const authRouter = express.Router();
 

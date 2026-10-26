@@ -7,6 +7,7 @@ import { usersRouter } from "./src/routes/users.routes.js";
 import { tagsRouter } from "./src/routes/tags.routes.js";
 import { articlesRouter } from "./src/routes/articles.routes.js";
 import { articlesTagRouter } from "./src/routes/articlesTag.routes.js";
+import { testConexion } from "./src/config/database.js";
 
 const app = express();
 
@@ -19,9 +20,10 @@ app.use("/api/tags", tagsRouter);
 app.use("/api/articles", articlesRouter);
 app.use("/api/articles-tags", articlesTagRouter);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await testConexion();
   console.log(`servidor escuchando en el puerto ${PORT}`);
 });
 
