@@ -36,7 +36,14 @@ export async function getTags(req, res) {
 
 export const getTag = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).json({
+        ok: false,
+        status: 400,
+        message: "La id ingresada debe ser un número entero positivo",
+      });
+    }
 
     const etiqueta = await Tag.findByPk(id, {
       include: { model: Article, as: "articles" },
@@ -62,7 +69,14 @@ export const getTag = async (req, res) => {
 
 export async function putTag(req, res) {
   try {
-    const id = req.params.id;
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).json({
+        ok: false,
+        status: 400,
+        message: "La id ingresada debe ser un número entero positivo",
+      });
+    }
 
     const datosActualizados = matchedData(req);
 

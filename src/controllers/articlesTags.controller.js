@@ -1,25 +1,19 @@
-import { matchedData } from "express-validator";
 import Article from "../models/Article.js";
 import ArticleTag from "../models/ArticleTag.js";
 import Tag from "../models/Tag.js";
 
 export const postArticleTag = async (req, res) => {
   try {
-    const { article_id, tag_id } = matchedData(req);
+    const { article_id, tag_id } = req.body;
+
     const articulo = await Article.findByPk(article_id);
 
     if (!articulo) {
       return res
         .status(404)
-        .json({ ok: false, status: 404, message: "Artículo no encontrado" });
+        .json({ ok: false, status: 404, message: "Articulo no encontrado" });
     }
-    if (articulo.user_id !== req.user.id) {
-      return res.status(403).json({
-        ok: false,
-        status: 403,
-        message: "Solo el autor puede agregar etiquetas al artículo",
-      });
-    }
+
     const etiqueta = await Tag.findByPk(tag_id);
     if (!etiqueta) {
       return res
@@ -51,32 +45,6 @@ export const postArticleTag = async (req, res) => {
 export async function deleteArticleTag(req, res) {
   try {
     const articleTagId = req.params.articleTagId;
-    const articleTag = await ArticleTag.findByPk(articleTagId);
-
-    if (!articleTag) {
-      return res.status(404).json({
-        ok: false,
-        status: 404,
-        message: "Relación artículo-etiqueta no encontrada",
-      });
-    }
-    const article = await Article.findByPk(articleTag.article_id);
-    if (!article) {
-      return res.status(404).json({
-        ok: false,
-        status: 404,
-        message: "Artículo no encontrado",
-      });
-    }
-
-    if (req.user.id !== article.user_id) {
-      return res.status(403).json({
-        ok: false,
-        status: 403,
-        message: "No cuenta con permisos para remover esta etiqueta",
-      });
-    }
-
     await ArticleTag.destroy({
       where: { id: articleTagId },
     });

@@ -1,14 +1,12 @@
+import { matchedData } from "express-validator";
 import Article from "../models/Article.js";
 
 export async function postArticle(req, res) {
   try {
-    const { title, content, excerpt, status } = req.body;
+    const data = matchedData(req);
 
     const nuevoArticle = await Article.create({
-      title,
-      content,
-      excerpt,
-      status,
+      ...data,
       user_id: req.user.id,
     });
     return res.status(201).json({ ok: true, status: 201, body: nuevoArticle });
@@ -125,27 +123,9 @@ export const putArticle = async (req, res) => {
 
     const articulo = await Article.findByPk(id);
 
-    if (!articulo) {
-      return res.status(404).json({
-        ok: false,
-        status: 404,
-        message: "Artículo no encontrado",
-      });
-    }
-
-    if (articulo.user_id !== req.user.id && req.user.role !== "admin") {
-      return res.status(403).json({
-        ok: false,
-        status: 403,
-        message: "No tienes permisos para actualizar este artículo",
-      });
-    }
-
     const datosActualizados = matchedData(req);
 
-    await Article.update(datosActualizados, {
-      where: { id },
-    });
+    await articulo.update(datosActualizados);
 
     const articuloActualizado = await Article.findByPk(id);
 

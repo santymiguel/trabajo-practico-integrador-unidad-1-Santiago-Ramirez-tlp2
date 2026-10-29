@@ -6,15 +6,21 @@ import {
   postTag,
   putTag,
 } from "../controllers/tags.controller.js";
+import { adminMiddleware } from "../middleware/validation/adminMiddleware .js";
+import { authMiddleware } from "../middleware/validation/authMiddleware.js";
+import {
+  validationPostTag,
+  validationPutTag,
+} from "../middleware/validation.Tags.js";
 // se importan los controladores
 
 export const tagsRouter = express.Router();
 
-tagsRouter.get("/", getTags);
-tagsRouter.get("/:id", getTag);
+tagsRouter.get("/", authMiddleware, getTags);
+tagsRouter.get("/:id", adminMiddleware, getTag);
 
-tagsRouter.post("/", postTag);
+tagsRouter.post("/", adminMiddleware, validationPostTag, validator, postTag);
 
-tagsRouter.put("/:id", putTag);
+tagsRouter.put("/:id", adminMiddleware, validationPutTag, validator, putTag);
 
-tagsRouter.delete("/:id", deleteTag);
+tagsRouter.delete("/:id", adminMiddleware, deleteTag);

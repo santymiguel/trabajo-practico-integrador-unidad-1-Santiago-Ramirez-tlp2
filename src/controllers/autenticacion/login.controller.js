@@ -1,10 +1,11 @@
+import { matchedData } from "express-validator";
 import { comparePassword } from "../../helpers/bycript.helper.js";
 import { generateToken } from "../../helpers/jwt.helper.js";
 import Profile from "../../models/Profile.js";
 import User from "../../models/User.js ";
 
 export const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password } = matchedData(req);
   // 1. Buscar usuario en la base de datos
   const user = await User.findOne({
     where: { username }, // Solo buscamos por username

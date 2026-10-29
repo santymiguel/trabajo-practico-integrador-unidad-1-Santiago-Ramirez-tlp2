@@ -7,19 +7,28 @@ import {
   putUser,
 } from "../controllers/users.controller.js";
 import {
+  validationDeleteUser,
   validationGetUser,
   validationPostUser,
+  validationPutUser,
 } from "../middleware/validation.User.js";
 import { validate } from "../middleware/validate.js";
+import { adminMiddleware } from "../middleware/validation/adminMiddleware .js";
 // se importan los controladores
 
 export const usersRouter = express.Router();
 
-usersRouter.get("/", getUsers);
-usersRouter.get("/:id", validationGetUser, validate, getUser);
+usersRouter.get("/", adminMiddleware, getUsers);
+usersRouter.get("/:id", adminMiddleware, validationGetUser, validate, getUser);
 
-usersRouter.post("/", validationPostUser, validate, postUser);
+usersRouter.post("/", adminMiddleware, validationPostUser, validate, postUser);
 
-usersRouter.put("/:id", putUser);
+usersRouter.put("/:id", adminMiddleware, validationPutUser, validate, putUser);
 
-usersRouter.delete("/:id", deleteUser);
+usersRouter.delete(
+  "/:id",
+  adminMiddleware,
+  validationDeleteUser,
+  validate,
+  deleteUser,
+);
