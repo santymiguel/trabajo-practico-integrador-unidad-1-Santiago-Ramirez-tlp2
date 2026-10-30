@@ -1,4 +1,4 @@
-import Article from "../../models/Article";
+import Article from "../../models/Article.js";
 
 export const ownerMiddleware = async (req, res, next) => {
   const article = await Article.findByPk(req.params.id);

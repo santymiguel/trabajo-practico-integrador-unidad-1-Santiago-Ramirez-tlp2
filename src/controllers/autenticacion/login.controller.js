@@ -2,7 +2,7 @@ import { matchedData } from "express-validator";
 import { comparePassword } from "../../helpers/bycript.helper.js";
 import { generateToken } from "../../helpers/jwt.helper.js";
 import Profile from "../../models/Profile.js";
-import User from "../../models/User.js ";
+import User from "../../models/User.js";
 
 export const login = async (req, res) => {
   const { username, password } = matchedData(req);

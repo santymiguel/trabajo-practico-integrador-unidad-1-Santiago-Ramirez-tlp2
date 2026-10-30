@@ -46,7 +46,7 @@ export const validationPostArticle = [
     .withMessage("El user_id debe ser un identificador válido")
     .bail()
     .custom(async (user_id) => {
-      const user = await UsersModel.findByPk(user_id);
+      const user = await User.findByPk(user_id);
 
       if (!user) {
         throw new Error("El usuario indicado no existe");

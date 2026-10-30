@@ -12,6 +12,7 @@ import {
   validationPostTag,
   validationPutTag,
 } from "../middleware/validation.Tags.js";
+import { validate } from "../middleware/validate.js";
 // se importan los controladores
 
 export const tagsRouter = express.Router();
@@ -19,8 +20,8 @@ export const tagsRouter = express.Router();
 tagsRouter.get("/", authMiddleware, getTags);
 tagsRouter.get("/:id", adminMiddleware, getTag);
 
-tagsRouter.post("/", adminMiddleware, validationPostTag, validator, postTag);
+tagsRouter.post("/", adminMiddleware, validationPostTag, validate, postTag);
 
-tagsRouter.put("/:id", adminMiddleware, validationPutTag, validator, putTag);
+tagsRouter.put("/:id", adminMiddleware, validationPutTag, validate, putTag);
 
 tagsRouter.delete("/:id", adminMiddleware, deleteTag);

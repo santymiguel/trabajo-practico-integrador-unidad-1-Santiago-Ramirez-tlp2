@@ -16,6 +16,7 @@ import {
   validationPutArtcile,
 } from "../middleware/validation.articles.js";
 import { adminOrAuthorMiddleware } from "../middleware/validation/adminOrAutorMiddleware.js";
+import { validate } from "../middleware/validate.js";
 // se importan los controladores
 
 export const articlesRouter = express.Router();
@@ -29,7 +30,7 @@ articlesRouter.post(
   "/",
   authMiddleware,
   validationPostArticle,
-  validator,
+  validate,
   postArticle,
 );
 
@@ -37,7 +38,7 @@ articlesRouter.put(
   "/:id",
   adminOrAuthorMiddleware,
   validationPutArtcile,
-  validator,
+  validate,
   putArticle,
 );
 
@@ -45,6 +46,6 @@ articlesRouter.delete(
   "/:id",
   adminOrAuthorMiddleware,
   validationDeleteArticle,
-  validator,
+  validate,
   deleteArticle,
 );

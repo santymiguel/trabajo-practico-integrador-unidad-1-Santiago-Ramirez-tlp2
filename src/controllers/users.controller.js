@@ -30,7 +30,7 @@ export const getUser = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const usuario = await UsersModel.findByPk(id, {
+    const usuario = await User.findByPk(id, {
       include: [
         { model: Profile, as: "profile" },
         { model: Article, as: "articles" },
@@ -53,7 +53,7 @@ export async function postUser(req, res) {
     const hashedPassword = await hashPassword(password);
     const data = matchedData(req);
 
-    const user = await UsersModel.create({ ...data, password: hashedPassword });
+    const user = await User.create({ ...data, password: hashedPassword });
     const perfilNuevo = await Profile.create({ ...data, user_id: user.id });
     return res.status(201).json({
       ok: true,
@@ -76,7 +76,7 @@ export async function putUser(req, res) {
 
     const datosActualizados = matchedData(req);
 
-    const usuarioActualizado = await UsersModel.update(datosActualizados, {
+    const usuarioActualizado = await User.update(datosActualizados, {
       where: { id },
     });
     return res
